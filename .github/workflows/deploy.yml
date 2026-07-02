@@ -59,15 +59,17 @@ jobs:
           $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/ecommerce-webapp:latest
 
       - name: Deploy Backend Service
-        run: |
-          aws ecs update-service \
-            --cluster ecommerce-cluster \
-            --service backend-service \
-            --force-new-deployment
+      run: |
+    aws ecs update-service \
+      --cluster ecommerce-cluster \
+      --service ${{ secrets.ECS_BACKEND_SERVICE }} \
+      --force-new-deployment \
+      --endpoint-url https://ecs.us-east-1.amazonaws.com
 
       - name: Deploy Frontend Service
         run: |
-          aws ecs update-service \
-            --cluster ecommerce-cluster \
-            --service frontend-service \
-            --force-new-deployment
+    aws ecs update-service \
+      --cluster ecommerce-cluster \
+      --service ${{ secrets.ECS_FRONTEND_SERVICE }} \
+      --force-new-deployment \
+      --endpoint-url https://ecs.us-east-1.amazonaws.com
